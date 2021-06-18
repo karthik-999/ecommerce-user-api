@@ -1,0 +1,88 @@
+info:
+  version: "1.0.0"
+  title: My API title
+  description: "Awesome description"
+
+# mvn springboot:run -Dspring.boot.run.arguments=--spring.application.instance_id= 'karthi', --server.port=9999
+server:
+  port: ${PORT:8185}
+  servlet:
+    context-path: /user-app
+    application-display-name: user-api
+spring:
+  application:
+    name: user-api
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2
+  datasource:
+#    driver-class-name: org.h2.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: root
+    url: jdbc:mysql://localhost:3306/productApp
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+#    database-platform: org.hibernate.dialect.H2Dialect
+
+  devtools:    restart:      enabled: true
+      
+sonar:
+  host:
+    url:http://localhost:9000/
+    
+#logging properties (SLF4J)
+#logging pattern for console
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  level: 
+    '[org.springframework.web]': ERROR
+    '[com.maybatch.training]': DEBUG
+    '[org.hibernate]': INFO
+  file: application.log
+  
+##Eureka Client
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+#  instance:#    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+#Gateway
+gateway:
+  ip: localhost
+
+#Security  
+token:
+  expiration_time: 864000000
+  secret: hfgry463hf746hf573ydh475fhy5739
+login.url.path: /users/login     
+
+authorization:
+  token:
+    header:
+      name: Authorization
+      prefix: Bearer
+  
+##Acutator properties
+#management:
+#  server:
+#    port: 8092
+#  endpoints:
+#    web:
+#      exposure:
+#        include:
+#        - "*"
+#  endpoint:
+#    health:
+#      show-details: "always"  
